@@ -10,13 +10,76 @@ public class main {
 
 	public static void main(String[] args) throws IOException {
 		
-		BufferedImage image = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB); 
-		int[] rgbValues = new int[]{100, 100, 100};
-		image.getRaster().setPixels(0, 0, 1, 1, rgbValues);
-		image.getRaster().setPixels(0, 1, 1, 1, rgbValues);
-		image.getRaster().setPixels(1, 0, 1, 1, rgbValues);
-		image.getRaster().setPixels(1, 1, 1, 1, rgbValues);
+
+		JComboBox cmbNumberOfSegments = new JComboBox<>(new Integer[]{1, 2});
+		cmbNumberOfSegments.setBounds(300, 50, 50, 25);
+		cmbNumberOfSegments.setSelectedIndex(1);
+
+		int numberOfSegments = Integer.parseInt(cmbNumberOfSegments.getSelectedItem().toString());
+		int segmentSize = 100; 
+		int imgWidth = numberOfSegments * segmentSize;
+		int imgHeight = numberOfSegments * segmentSize;
+		BufferedImage image = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB); 
+
+		int redI=100, greenI=0, blueI=0;
+		int red, green, blue;
+		int currentSegment = 1;
+
+		for (int x = 0; x <= imgWidth - 1; x++) {
+			if (x >= 100)
+				currentSegment = 2;
+			if (x == 0 || x == 100){
+				switch (currentSegment) {
+					case 1:
+						redI=100; 
+						greenI=0;
+						blueI=0;
+						break;
+					case 2:
+						redI=0; 
+						greenI=100;
+						blueI=0;
+						break;
+					case 3:
+						redI=100; 
+						greenI=0;
+						blueI=0;				
+						break;
+					case 4:
+						redI=100; 
+						greenI=0;
+						blueI=0;				
+						break;
+				}
+			}
+			
+			for (int y = 0; y < imgHeight; y++) {
+				red = Math.round( redI * 255 / 100 );
+				green = Math.round( greenI * 255 / 100 );
+				blue = Math.round( blueI * 255 / 100 );
+
+				int rgb = red;
+				rgb = (rgb << 8) + green; 
+				rgb = (rgb << 8) + blue;
+
+				image.setRGB(x, y, rgb);
+			}
+			
+			if (x <= segmentSize - 1){
+				redI--;
+				blueI++;
+			}
+
+			if (currentSegment==2){
+				redI++;
+				greenI--;
+				blueI++;
+			}
+			
+		}
         
+		System.out.println("Done");
+
 		File outputFile = new File("output.bmp");
 		outputFile.createNewFile();
         ImageIO.write(image, "bmp", outputFile);
@@ -28,10 +91,6 @@ public class main {
 		lbNumberOfSegments.setHorizontalAlignment(JLabel.CENTER);
 		lbNumberOfSegments.setVerticalAlignment(JLabel.TOP);
 		lbNumberOfSegments.setBounds(300, 0, 200, 200);
-
-
-		JComboBox cmbNumberOfSegments = new JComboBox<>(new Integer[]{1});
-		cmbNumberOfSegments.setBounds(300, 50, 50, 25);
 
 
 		JButton btnPrintSegment = new JButton();
