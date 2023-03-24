@@ -1,17 +1,19 @@
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+
 import java.io.*;
 
+import javax.swing.*;
 
-public class main {
+public class Main {
 
 	public static void main(String[] args) throws IOException {
 		
-
-		JComboBox cmbNumberOfSegments = new JComboBox<>(new Integer[]{1, 2});
+		JComboBox<Integer> cmbNumberOfSegments = new JComboBox<>(new Integer[]{1, 2});
 		cmbNumberOfSegments.setBounds(300, 50, 50, 25);
 		cmbNumberOfSegments.setSelectedIndex(1);
 
@@ -25,34 +27,11 @@ public class main {
 		int red, green, blue;
 		int currentSegment = 1;
 
-		for (int x = 0; x <= imgWidth - 1; x++) {
-			if (x >= 100)
-				currentSegment = 2;
-			if (x == 0 || x == 100){
-				switch (currentSegment) {
-					case 1:
-						redI=100; 
-						greenI=0;
-						blueI=0;
-						break;
-					case 2:
-						redI=0; 
-						greenI=100;
-						blueI=0;
-						break;
-					case 3:
-						redI=100; 
-						greenI=0;
-						blueI=0;				
-						break;
-					case 4:
-						redI=100; 
-						greenI=0;
-						blueI=0;				
-						break;
-				}
-			}
+		for (int x = 0; x < imgWidth; x++) {
 			
+			if (x == 100 * currentSegment)
+				currentSegment++;
+
 			for (int y = 0; y < imgHeight; y++) {
 				red = Math.round( redI * 255 / 100 );
 				green = Math.round( greenI * 255 / 100 );
@@ -65,17 +44,21 @@ public class main {
 				image.setRGB(x, y, rgb);
 			}
 			
-			if (x <= segmentSize - 1){
-				redI--;
-				blueI++;
+			switch (currentSegment){
+				case 1:
+					redI--;
+					blueI++;
+					break;
+				case 2:
+					redI++;
+					greenI--;
+					blueI++;
+					break;	
+				case 3:
+					redI--;
+					blueI++;
+					break;
 			}
-
-			if (currentSegment==2){
-				redI++;
-				greenI--;
-				blueI++;
-			}
-			
 		}
         
 		System.out.println("Done");
@@ -84,7 +67,10 @@ public class main {
 		outputFile.createNewFile();
         ImageIO.write(image, "bmp", outputFile);
 
-		
+
+		Segment segment1 = new Segment();
+
+
 		JLabel lbNumberOfSegments = new JLabel();
 		lbNumberOfSegments.setText("Number of segments");
 		lbNumberOfSegments.setForeground(Color.WHITE);
@@ -92,15 +78,14 @@ public class main {
 		lbNumberOfSegments.setVerticalAlignment(JLabel.TOP);
 		lbNumberOfSegments.setBounds(300, 0, 200, 200);
 
-
+		
 		JButton btnPrintSegment = new JButton();
 		btnPrintSegment.setText("Print Segment(s)");
-		btnPrintSegment.addActionListener(e -> System.out.println("a"));
-
+        btnPrintSegment.addActionListener(e -> segment1.updateSegment(image));
 
 		JPanel pnlControlPanel = new JPanel();
 		pnlControlPanel.setBackground(Color.DARK_GRAY);
-
+		pnlControlPanel.setPreferredSize(new Dimension(800, 100));
 		pnlControlPanel.add(lbNumberOfSegments);
 		pnlControlPanel.add(cmbNumberOfSegments);
 		pnlControlPanel.add(btnPrintSegment);
@@ -114,6 +99,7 @@ public class main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new FlowLayout());
 		frame.add(pnlControlPanel);
+		frame.add(segment1);
 
 		frame.setVisible(true);
 		
