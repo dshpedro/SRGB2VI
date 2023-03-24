@@ -1,0 +1,25 @@
+/*
+int rgbIArray[] = {100, 0, 0};
+		int rgbArray[] = {0, 0, 0};
+		int currentSegment = 1;
+
+		for (int x = 0; x < imgWidth; x++) {
+			
+			if (x == segmentSize * currentSegment) {
+				currentSegment++;
+				//redI, greenI, blueI = getCurrentSegmentRGBI(currentSegment);
+			}
+			
+
+			for (int y = 0; y < imgHeight; y++) {
+				rgbArray[0] = Math.round( rgbIArray[0] * 255 / 100 );
+				rgbArray[1] = Math.round( rgbIArray[1] * 255 / 100 );
+				rgbArray[2] = Math.round( rgbIArray[2] * 255 / 100 );
+
+				int rgb = rgbArray[0];
+				rgb = (rgb << 8) + rgbArray[1]; 
+				rgb = (rgb << 8) + rgbArray[2];
+
+				image.setRGB(x, y, rgb);
+			}
+*/
