@@ -22,15 +22,29 @@ public class Main {
 		int imgWidth = numberOfSegments * segmentSize;
 		int imgHeight = numberOfSegments * segmentSize;
 		BufferedImage image = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB); 
-
-		int redI=100, greenI=0, blueI=0;
+		
+		int redI=0, greenI=0, blueI=0;
 		int red, green, blue;
 		int currentSegment = 1;
+		int[] EndingRGBI = {0, 0, 0};
+		int[] InitialRGBI = getCurrentSegmentInitialRGBI(currentSegment);
+		redI = InitialRGBI[0];
+		greenI = InitialRGBI[1];
+		blueI = InitialRGBI[2];
+		EndingRGBI = getCurrentSegmentEndingRGBI(currentSegment);
 
 		for (int x = 0; x < imgWidth; x++) {
 			
-			if (x == 100 * currentSegment)
+			if (x == segmentSize * currentSegment) {
 				currentSegment++;
+				InitialRGBI = getCurrentSegmentInitialRGBI(currentSegment);
+				redI = InitialRGBI[0];
+				greenI = InitialRGBI[1];
+				blueI = InitialRGBI[2];
+				EndingRGBI = getCurrentSegmentEndingRGBI(currentSegment);
+				
+			}
+			
 
 			for (int y = 0; y < imgHeight; y++) {
 				red = Math.round( redI * 255 / 100 );
@@ -44,21 +58,26 @@ public class Main {
 				image.setRGB(x, y, rgb);
 			}
 			
-			switch (currentSegment){
-				case 1:
-					redI--;
-					blueI++;
-					break;
-				case 2:
-					redI++;
-					greenI--;
-					blueI++;
-					break;	
-				case 3:
-					redI--;
-					blueI++;
-					break;
+			if (redI < EndingRGBI[0]) {
+				redI++;
 			}
+			else if (redI > EndingRGBI[0]) {
+				redI--;
+			}
+			
+			if (greenI < EndingRGBI[1]) {
+				greenI++;
+			}
+			else if (greenI > EndingRGBI[1]) {
+				greenI--;
+
+			}if (blueI < EndingRGBI[2]) {
+				blueI++;
+			}
+			else if (blueI > EndingRGBI[2]) {
+				blueI--;
+			}
+
 		}
         
 		System.out.println("Done");
@@ -105,4 +124,51 @@ public class Main {
 		
 	}
 
+	static int[] getCurrentSegmentInitialRGBI(int currentSegment) {
+		int[] rgbIArray = {0, 0, 0};
+
+		switch (currentSegment) {
+			case 1:
+				rgbIArray[0] = 100;
+				rgbIArray[1] = 0;
+				rgbIArray[2] = 100;
+				break;
+			case 2:
+				rgbIArray[0] = 100;
+				rgbIArray[1] = 100;
+				rgbIArray[2] = 0;
+				break;
+			default:
+				rgbIArray[0] = 0;
+				rgbIArray[1] = 0;
+				rgbIArray[2] = 0;
+				break;
+		}
+
+		return rgbIArray;
+	}
+
+	static int[] getCurrentSegmentEndingRGBI(int currentSegment) {
+		int[] rgbIArray = {0, 0, 0};
+
+		switch (currentSegment) {
+			case 1:
+				rgbIArray[0] = 0;
+				rgbIArray[1] = 100;
+				rgbIArray[2] = 0;
+				break;
+			case 2:
+				rgbIArray[0] = 0;
+				rgbIArray[1] = 0;
+				rgbIArray[2] = 100;
+				break;
+			default:
+				rgbIArray[0] = 0;
+				rgbIArray[1] = 0;
+				rgbIArray[2] = 0;
+				break;
+		}
+
+		return rgbIArray;
+	}	
 }
