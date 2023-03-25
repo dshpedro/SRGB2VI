@@ -28,19 +28,19 @@ public class Segment extends JPanel {
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
 
         lbR.setText("R");
-        lbR.setPreferredSize(new Dimension(30, 20));;
+        lbR.setPreferredSize(new Dimension(30, 20));
         lbR.setHorizontalAlignment(SwingConstants.CENTER);
         lbR.setForeground(Color.RED);
         this.add(lbR);
 
         lbG.setText("G");
-        lbG.setPreferredSize(new Dimension(30, 20));;
+        lbG.setPreferredSize(new Dimension(30, 20));
         lbG.setHorizontalAlignment(SwingConstants.CENTER);
         lbG.setForeground(Color.GREEN);
         this.add(lbG);
 
         lbB.setText("B");
-        lbB.setPreferredSize(new Dimension(30, 20));;
+        lbB.setPreferredSize(new Dimension(30, 20));
         lbB.setHorizontalAlignment(SwingConstants.CENTER);
         lbB.setForeground(Color.BLUE);
         this.add(lbB);  
