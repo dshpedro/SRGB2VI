@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 
+import java.util.Arrays;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class Segment extends JPanel {
-
     JLabel lbImageLabel = new JLabel();
     JLabel lbR = new JLabel();
     JLabel lbG = new JLabel();
@@ -26,70 +27,65 @@ public class Segment extends JPanel {
         this.setBackground(Color.DARK_GRAY);
         this.setPreferredSize(new Dimension(99, 155));
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
+        final int textBoxAndLabelWidth = 30, textBoxAndLabelHeight = 20;
 
         lbR.setText("R");
-        lbR.setPreferredSize(new Dimension(30, 20));
+        lbR.setPreferredSize(new Dimension(textBoxAndLabelWidth, textBoxAndLabelHeight));
         lbR.setHorizontalAlignment(SwingConstants.CENTER);
         lbR.setForeground(Color.RED);
         this.add(lbR);
 
         lbG.setText("G");
-        lbG.setPreferredSize(new Dimension(30, 20));
+        lbG.setPreferredSize(new Dimension(textBoxAndLabelWidth, textBoxAndLabelHeight));
         lbG.setHorizontalAlignment(SwingConstants.CENTER);
         lbG.setForeground(Color.GREEN);
         this.add(lbG);
 
         lbB.setText("B");
-        lbB.setPreferredSize(new Dimension(30, 20));
+        lbB.setPreferredSize(new Dimension(textBoxAndLabelWidth, textBoxAndLabelHeight));
         lbB.setHorizontalAlignment(SwingConstants.CENTER);
         lbB.setForeground(Color.BLUE);
         this.add(lbB);  
 
-        this.tbxInitialRedI.setPreferredSize(new Dimension(30, 20));
-        this.tbxInitialRedI.setHorizontalAlignment(SwingConstants.CENTER);
-        this.tbxInitialRedI.addActionListener(e -> System.out.println("red pressed"));
-        this.tbxInitialRedI.addActionListener(e -> this.updateSegment());
+        tbxInitialRedI.setPreferredSize(new Dimension(textBoxAndLabelWidth, textBoxAndLabelHeight));
+        tbxInitialRedI.setHorizontalAlignment(SwingConstants.CENTER);
+        tbxInitialRedI.addActionListener(e -> this.updateSegment());
         this.add(tbxInitialRedI);
 
-        this.tbxInitialGreenI.setPreferredSize(new Dimension(30, 20));
-        this.tbxInitialGreenI.setHorizontalAlignment(SwingConstants.CENTER);
-        this.tbxInitialGreenI.addActionListener(e -> System.out.println("green pressed"));
-        this.tbxInitialGreenI.addActionListener(e -> this.updateSegment());
+        tbxInitialGreenI.setPreferredSize(new Dimension(textBoxAndLabelWidth, textBoxAndLabelHeight));
+        tbxInitialGreenI.setHorizontalAlignment(SwingConstants.CENTER);
+        tbxInitialGreenI.addActionListener(e -> this.updateSegment());
         this.add(tbxInitialGreenI);
 
-        this.tbxInitialBlueI.setPreferredSize(new Dimension(30, 20));
-        this.tbxInitialBlueI.setHorizontalAlignment(SwingConstants.CENTER);
-        this.tbxInitialBlueI.addActionListener(e -> System.out.println("blue pressed"));
-        this.tbxInitialBlueI.addActionListener(e -> this.updateSegment());
+        tbxInitialBlueI.setPreferredSize(new Dimension(textBoxAndLabelWidth, textBoxAndLabelHeight));
+        tbxInitialBlueI.setHorizontalAlignment(SwingConstants.CENTER);
+        tbxInitialBlueI.addActionListener(e -> this.updateSegment());
         this.add(tbxInitialBlueI);
 
-        this.tbxEndingRedI.setPreferredSize(new Dimension(30, 20));
-        this.tbxEndingRedI.setHorizontalAlignment(SwingConstants.CENTER);
-        this.tbxEndingRedI.addActionListener(e -> System.out.println("red pressed"));
-        this.tbxEndingRedI.addActionListener(e -> this.updateSegment());
+        tbxEndingRedI.setPreferredSize(new Dimension(textBoxAndLabelWidth, textBoxAndLabelHeight));
+        tbxEndingRedI.setHorizontalAlignment(SwingConstants.CENTER);
+        tbxEndingRedI.addActionListener(e -> this.updateSegment());
         this.add(tbxEndingRedI);
 
-        this.tbxEndingGreenI.setPreferredSize(new Dimension(30, 20));
-        this.tbxEndingGreenI.setHorizontalAlignment(SwingConstants.CENTER);
-        this.tbxEndingGreenI.addActionListener(e -> System.out.println("green pressed"));
-        this.tbxEndingGreenI.addActionListener(e -> this.updateSegment());
-
+        tbxEndingGreenI.setPreferredSize(new Dimension(textBoxAndLabelWidth, textBoxAndLabelHeight));
+        tbxEndingGreenI.setHorizontalAlignment(SwingConstants.CENTER);
+        tbxEndingGreenI.addActionListener(e -> this.updateSegment());
         this.add(tbxEndingGreenI);
 
-        this.tbxEndingBlueI.setPreferredSize(new Dimension(30, 20));
-        this.tbxEndingBlueI.setHorizontalAlignment(SwingConstants.CENTER);
-        this.tbxEndingBlueI.addActionListener(e -> System.out.println("blue pressed"));
-        this.tbxEndingBlueI.addActionListener(e -> this.updateSegment());
+        tbxEndingBlueI.setPreferredSize(new Dimension(textBoxAndLabelWidth, textBoxAndLabelHeight));
+        tbxEndingBlueI.setHorizontalAlignment(SwingConstants.CENTER);
+        tbxEndingBlueI.addActionListener(e -> this.updateSegment());
         this.add(tbxEndingBlueI);
 
         this.add(lbImageLabel);
     }
 
     void updateSegment(){
-        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB); 
-
+        final int imageSize=100;
+        BufferedImage image = new BufferedImage(imageSize, imageSize, BufferedImage.TYPE_INT_RGB); 
         int[] initialRGBI = {0, 0, 0};
 		int[] endingRGBI = {0, 0, 0};
+
         try {
             initialRGBI[0] = Integer.parseInt(tbxInitialRedI.getText());
             initialRGBI[1] = Integer.parseInt(tbxInitialGreenI.getText());
@@ -100,46 +96,65 @@ public class Segment extends JPanel {
         } catch (Exception e) {
             return;
         }
-        
 
-        int red, green, blue, redI=initialRGBI[0], greenI=initialRGBI[1], blueI=initialRGBI[2];
-        for (int x = 0; x < 100; x++) {
-			for (int y = 0; y < 100; y++) {
-				red = Math.round( redI * 255 / 100 );
-				green = Math.round( greenI * 255 / 100 );
-				blue = Math.round( blueI * 255 / 100 );
+        int RGBIDifference[] = new int[3];
+        
+        for (int i=0; i<3; i++) {    
+            RGBIDifference[i] = Math.abs(initialRGBI[i]-endingRGBI[i]);
+        }
+        Arrays.sort(RGBIDifference);
+
+        final int lastIndex = 2;
+        final double pace = RGBIDifference[lastIndex], increment = pace/imageSize;
+        final int maxColorValue = 255;
+        System.out.println(pace);
+        System.out.println(increment);
+        int red, green, blue;
+        float redIntensity=initialRGBI[0], greenIntensity=initialRGBI[1], blueIntensity=initialRGBI[2];
+        
+        for (int x = 0; x < imageSize; x++) {
+			for (int y = 0; y < imageSize; y++) {
+				red = Math.round( redIntensity * maxColorValue / imageSize );
+				green = Math.round( greenIntensity * maxColorValue / imageSize );
+				blue = Math.round( blueIntensity * maxColorValue / imageSize );
 
 				int rgb = red;
-				rgb = (rgb << 8) + green; 
-				rgb = (rgb << 8) + blue;
+				rgb = (rgb << 8) + green; // rotates one byte in 'rgb'
+				rgb = (rgb << 8) + blue;  // rotates one byte in 'rgb'
 
 				image.setRGB(x, y, rgb);
 			}
 
-            if (redI < endingRGBI[0]) {
-				redI++;
+            if (redIntensity < endingRGBI[0]) {
+				redIntensity+=increment;
 			}
-			else if (redI > endingRGBI[0]) {
-				redI--;
+			else if (redIntensity > endingRGBI[0]) {
+				redIntensity-=increment;
 			}
 			
-			if (greenI < endingRGBI[1]) {
-				greenI++;
+			if (greenIntensity < endingRGBI[1]) {
+				greenIntensity+=increment;
 			}
-			else if (greenI > endingRGBI[1]) {
-				greenI--;
+			else if (greenIntensity > endingRGBI[1]) {
+				greenIntensity-=increment;
 
-			}if (blueI < endingRGBI[2]) {
-				blueI++;
 			}
-			else if (blueI > endingRGBI[2]) {
-				blueI--;
+            
+            if (blueIntensity < endingRGBI[2]) {
+				blueIntensity+=increment;
 			}
+			else if (blueIntensity > endingRGBI[2]) {
+				blueIntensity-=increment;
+			}
+
+            // sets the min and max values for the intensity of each color
+            redIntensity = Math.max(0, Math.min(redIntensity, 100));
+            greenIntensity = Math.max(0, Math.min(greenIntensity, 100));
+            blueIntensity = Math.max(0, Math.min(blueIntensity, 100));
         }
-
         ImageIcon segmentImage = new ImageIcon();
+
         segmentImage.setImage(image);
 		lbImageLabel.setIcon(segmentImage);
-        System.out.println("the button was pressed");
     }
 }
